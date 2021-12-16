@@ -1,0 +1,26 @@
+{
+  "name": "uno-multiplayer",
+  "version": "1.0.0",
+  "description": "online 2p UNO card game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "client": "npm start --prefix client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshkc/uno-multiplayer.git"
+  },
+  "author": "Harsh Choudhary",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/harshkc/uno-multiplayer/issues"
+  },
+  "homepage": "https://github.com/harshkc/uno-multiplayer#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^3.1.1"
+  }
+}

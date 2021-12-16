@@ -4,14 +4,22 @@
 client/node_modules
 client/.pnp
 client/.pnp.js
+server/node_modules
+server/.pnp
+server/.pnp.js
 
 # testing
 client/coverage
+server/coverage
 
 # production
 client/build
+server/build
 
 
 client/npm-debug.log*
 client/yarn-debug.log*
 client/yarn-error.log*
+server/npm-debug.log*
+server/yarn-debug.log*
+server/yarn-error.log*
