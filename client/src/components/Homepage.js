@@ -14,15 +14,16 @@ const Homepage = () => {
             <input
               type='text'
               placeholder='Game Code'
+              style={{padding: "0.25rem", fontSize: "1rem"}}
               onChange={(event) => setRoomCode(event.target.value)}
             />
-            <Link to={`/play/${roomCode}`}>
+            <Link to={`/play/room=${roomCode}`}>
               <button className='game-button green'>JOIN GAME</button>
             </Link>
           </div>
           <h1>OR</h1>
           <div className='homepage-create'>
-            <Link to={`/play/${randomCodeGenerator(5)}`}>
+            <Link to={`/play/room=${randomCodeGenerator(5)}`}>
               <button className='game-button orange'>CREATE GAME</button>
             </Link>
           </div>
