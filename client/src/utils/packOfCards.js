@@ -110,4 +110,21 @@ const PACK_OF_CARDS = [
   "D4W",
 ];
 
-export default PACK_OF_CARDS;
+const ACTION_CARDS = [
+  "skipR",
+  "_R",
+  "D2R",
+  "skipG",
+  "_G",
+  "D2G",
+  "skipB",
+  "_B",
+  "D2B",
+  "skipY",
+  "_Y",
+  "D2Y",
+  "W",
+  "D4W",
+];
+
+export {PACK_OF_CARDS, ACTION_CARDS};
