@@ -2,6 +2,7 @@ import React from "react";
 import PlayerViewofOpponent from "./PlayerViewofOpponent";
 import CommonView from "./CommonView";
 import MainPlayerView from "./MainPlayerView";
+import MemoizedMessages from "./Messages";
 
 const GameScreen = ({
   currentUser,
@@ -41,6 +42,7 @@ const GameScreen = ({
         isSkipButtonDisabled={turn !== currentUser || !drawButtonPressed}
         onSkipButtonHandler={onSkipButtonHandler}
       />
+      <MemoizedMessages mainPlayer={currentUser} />
     </>
   );
 };
