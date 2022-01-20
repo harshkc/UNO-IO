@@ -16,6 +16,8 @@ server/coverage
 client/build
 server/build
 
+#ENV VARS
+client/.env
 
 client/npm-debug.log*
 client/yarn-debug.log*

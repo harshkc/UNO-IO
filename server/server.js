@@ -48,18 +48,16 @@ io.on("connection", (socket) => {
     callback();
   });
 
-  socket.on("disconnect", () => {
+  socket.on("quitRoom", () => {
     const user = removeUser(socket.id);
     if (user) io.to(user.room).emit("roomData", {room: user.room, users: getUsersInRoom(user.room)});
   });
 });
 
-//serve static assets in production
 if (process.env.NODE_ENV === "production") {
   //set static folder
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  app.get("/", (req, res) => {
+    res.send("Hello from Express!");
   });
 }
 
