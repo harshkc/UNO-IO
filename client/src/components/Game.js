@@ -1,5 +1,8 @@
 import React, {useEffect, useReducer} from "react";
 import socket from "../services/socket";
+import MemoizedHeader from "./Header";
+import CenterInfo from "./CenterInfo";
+import GameScreen from "./GameScreen";
 import {PACK_OF_CARDS, ACTION_CARDS} from "../utils/packOfCards";
 import shuffleArray from "../utils/shuffleArray";
 import {useSoundProvider} from "../context/SoundProvider";
@@ -329,7 +332,83 @@ const Game = ({room, currentUser}) => {
     }
   };
 
-  return <div className={`backgroundColor${currentColor}`}>GameScreen</div>;
+  const onCardDrawnHandler = () => {
+    //extract player who drew the card
+    let drawButtonPressed = true;
+    let turnCopy = turn;
+    //remove 1 new card from drawCardPile and send it to playerDrawn method
+    const copiedDrawCardPileArray = [...drawCardPile];
+    //pull out last element from it
+    const drawCard = copiedDrawCardPileArray.pop();
+    //add the drawn card to player's deck
+    let numberOfDrawnCard = drawCard.charAt(0);
+    let colorOfDrawnCard = drawCard.charAt(1);
+
+    //check if the card drawn is a skip card
+    if (drawCard === "skipR" || drawCard === "skipG" || drawCard === "skipB" || drawCard === "skipY") {
+      colorOfDrawnCard = drawCard.charAt(4);
+      numberOfDrawnCard = 100;
+    }
+    //if it is draw 2 card
+    if (drawCard === "D2R" || drawCard === "D2G" || drawCard === "D2B" || drawCard === "D2Y") {
+      colorOfDrawnCard = drawCard.charAt(2);
+      numberOfDrawnCard = 200;
+    }
+
+    if (
+      drawCard !== "W" &&
+      drawCard !== "D4W" &&
+      currentNumber !== numberOfDrawnCard &&
+      currentColor !== colorOfDrawnCard
+    ) {
+      turnCopy = turn === "Player 1" ? "Player 2" : "Player 1";
+      drawButtonPressed = false;
+    }
+
+    //send new state to server
+    socket.emit("updateGameState", {
+      turn: turnCopy,
+      player1Deck: turn === "Player 1" ? [...player1Deck, drawCard] : player1Deck,
+      player2Deck: turn === "Player 2" ? [...player2Deck, drawCard] : player2Deck,
+      drawCardPile: copiedDrawCardPileArray,
+      drawButtonPressed,
+    });
+  };
+
+  const onSkipButtonHandler = () => {
+    //extract player who skipped
+    const cardPlayedBy = turn;
+    //send new state to server
+    socket.emit("updateGameState", {
+      turn: cardPlayedBy === "Player 1" ? "Player 2" : "Player 1",
+      drawButtonPressed: false,
+    });
+  };
+
+  return (
+    <div className={`backgroundColor${currentColor}`}>
+      <MemoizedHeader roomCode={room} />
+      {!gameOver ? (
+        <GameScreen
+          currentUser={currentUser}
+          turn={turn}
+          player1Deck={player1Deck}
+          player2Deck={player2Deck}
+          onCardDrawnHandler={onCardDrawnHandler}
+          onCardPlayedHandler={onCardPlayedHandler}
+          playedCardsPile={playedCardsPile}
+          drawButtonPressed={drawButtonPressed}
+          onSkipButtonHandler={onSkipButtonHandler}
+          onUnoClicked={() => {
+            playUnoSound();
+            dispatch({type: "SET_UNO_BUTTON_PRESSED", isUnoButtonPressed: !isUnoButtonPressed});
+          }}
+        />
+      ) : (
+        <CenterInfo msg={`Game Over: ${winner} wins!!`} />
+      )}
+    </div>
+  );
 };
 
 export default Game;
