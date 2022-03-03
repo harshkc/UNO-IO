@@ -44,5 +44,6 @@
 ```
 ## ❤️ Credits
 
+* [Mizan Ali](https://github.com/mizanxali) for design & inspiration
 * [AlexDer](https://alexder.itch.io/) for the UNO cards assets
 * [3mil1](https://codepen.io/3mil1) for the button designs
